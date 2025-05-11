@@ -1,0 +1,242 @@
+---
+import GitHub from "./icons/GitHub.astro"
+import NextJS from "./icons/NextJS.astro"
+import Tailwind from "./icons/Tailwind.astro"
+import Django from "./icons/Django.astro"
+import Link from "./icons/Link.astro"
+import Html from "./icons/Html.astro"
+import Css from "./icons/Css.astro"
+import Laravel from "./icons/Laravel.astro"
+
+import Vue from "./icons/Vue.astro"
+import LinkButton from "./LinkButton.astro"
+
+const TAGS = {
+  NEXT: {
+    name: "Next.js",
+    class: "bg-black text-white",
+    icon: NextJS,
+  },
+  DJANGO: {
+    name: "Django",
+    class: "bg-[#092E20] text-white",
+    icon: Django,
+  },
+  TAILWIND: {
+    name: "Tailwind CSS",
+    class: "bg-[#38BDF8] text-white",
+    icon: Tailwind,
+  },
+  HTML: {
+    name: "HTML",
+    class: "bg-[#E44D26] text-white",
+    icon: Html,
+  },
+  CSS: {
+    name: "CSS",
+    class: "bg-[#264DE4] text-white",
+    icon: Css,
+  },
+  LARAVEL: {
+    name: "Laravel",
+    class: "bg-[#FF2D20] text-white",
+    icon: Laravel,
+  },
+  VUE: {
+    name: "Vue.js",
+    class: "bg-[#42b883] text-white",
+    icon: Vue,
+  },
+}
+
+
+const PROJECTS = [
+  {
+    title: "Sistema de reservas para el Gad de San Andres",
+    description: "Sistema de reservas de habitaciones o guías turísticos, con un asistente virtual integrado mediante Dialogflow. Desarrollado desde cero con Django, Python y Bootstrap CSS.",
+    link: "",
+    github: "https://github.com/YaibeehBA/voyaventura-sanandres",
+    image: "/projects/app1.webp",
+    tags: [TAGS.DJANGO, TAGS.TAILWIND],
+  },
+  {
+    title: "NewBlessing - Sistema de pedidos de camisas",
+    description: "Aplicación web desarrollada para gestionar los pedidos de camisas de la empresa NewBlessing. Permite administrar productos, clientes y pedidos de forma eficiente. Desarrollado desde cero con Laravel para el backend y Vue.js para el frontend.",
+    link: "",
+    github: "https://github.com/YaibeehBA/pedidos-vue-fronted", 
+    githubBackend: "https://github.com/YaibeehBA/pedidos-laravel-backend", 
+    image: "/projects/app1.webp", 
+    tags: [TAGS.LARAVEL, TAGS.VUE],
+  },
+  {
+    title: "Blog de Nutrición Profesional",
+    description: "Sitio web informativo diseñado para un nutricionista profesional. Se comparten artículos, consejos y recetas saludables, enfocados en una vida balanceada. Desarrollado con HTML, CSS y JavaScript para una experiencia simple y rápida.",
+    link: "", 
+    github: "https://github.com/YaibeehBA/Nutricion-y-Dietetica",
+    image: "/projects/app2.webp", 
+    tags: [TAGS.HTML, TAGS.CSS],
+  },
+
+
+]
+---
+
+<style>
+  .carousel-container {
+    scroll-snap-type: x mandatory;
+  }
+  .carousel-item {
+    scroll-snap-align: start;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .arrow-button {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .arrow-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+</style>
+
+<div class="relative w-full group">
+  <!-- Flechas de navegación (texto simple) -->
+  <button 
+    class="absolute left-[-65px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
+    aria-label="Anterior"
+    id="prevButton"
+  >
+    &lt;
+  </button>
+  
+  <button 
+    class="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
+    aria-label="Siguiente"
+    id="nextButton"
+  >
+    &gt;
+  </button>
+  <!-- Carrusel -->
+  <div class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-6 px-4 hide-scrollbar">
+    {
+      PROJECTS.map(({ image, title, description, tags, link, github, githubBackend }) => (
+        <article class={`
+          carousel-item flex-none
+          ${PROJECTS.length === 3 ? 
+            'w-full flex flex-row items-center gap-8' : 
+            'w-[calc(50%-1rem)] flex flex-col'}
+        `}>
+          {/* Contenedor de imagen */}
+          <div class={`
+            relative shadow-xl overflow-hidden rounded-xl 
+            ${PROJECTS.length === 3 ? 
+              'w-1/2 h-96' : 
+              'w-full h-56 md:h-64 lg:h-72'}
+            hover:-translate-y-1 hover:shadow-2xl transition-all
+          `}>
+            <img 
+              src={image} 
+              alt={title} 
+              class="object-cover w-full h-full" 
+              loading="lazy" 
+              width="600" 
+              height="400"
+            />
+          </div>
+
+          {/* Contenedor de información */}
+          <div class={`
+            ${PROJECTS.length === 3 ? 
+              'w-1/2' : 
+              'w-full mt-6'}
+          `}>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              {title}
+            </h3>
+            <ul class="flex flex-wrap mt-2 gap-2">
+              {tags.map((tag) => (
+                <li>
+                  <span class={`rounded-full text-xs ${tag.class} py-1 px-3`}>
+                    {tag.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-2 text-gray-700 dark:text-gray-400">{description}</p>
+            <footer class="flex gap-x-4 mt-4 flex-wrap">
+              {github && !githubBackend && (
+                <LinkButton href={github}>
+                  Ver código
+                </LinkButton>
+              )}
+              {github && githubBackend && (
+                <>
+                  <LinkButton href={github}>
+                    Código frontend
+                  </LinkButton>
+                  <LinkButton href={githubBackend}>
+                    Código backend
+                  </LinkButton>
+                </>
+              )}
+              {link && (
+                <LinkButton href={link}>
+                  Ver demo
+                </LinkButton>
+              )}
+            </footer>
+
+
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</div>
+
+
+<script>
+  // Ejecutar solo en el cliente
+  if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+      // Acceso a los botones y al carrusel
+      const prevButton = document.getElementById('prevButton');
+      const nextButton = document.getElementById('nextButton');
+      const carousel = document.getElementById('carousel');
+      
+      // Función de navegación
+      const navigate = (direction: 'next' | 'prev') => {
+        if (carousel) {
+          const itemWidth = carousel.clientWidth / 2; // Tamaño del item
+          
+          // Desplazamiento del carrusel
+          carousel.scrollBy({
+            left: direction === 'next' ? itemWidth : -itemWidth,
+            behavior: 'smooth'
+          });
+        }
+      };
+
+      // Asignar eventos a los botones
+      if (prevButton && nextButton) {
+        prevButton.addEventListener('click', () => navigate('prev'));
+        nextButton.addEventListener('click', () => navigate('next'));
+      }
+    });
+  }
+</script>
