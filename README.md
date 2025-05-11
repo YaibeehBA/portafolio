@@ -1,27 +1,40 @@
-# 👨🏻‍💻 Porfolio para programadores y desarrolladores
+# 🧑‍💻 Portafolio de Stalyn
 
-<div align="center">
-<a href="https://porfolio.dev/">
-<img src="./public/porfolio.webp">
-</a>
-<p></p>
-</div>
+Bienvenido a mi portafolio personal, un espacio donde presento algunos de los proyectos más relevantes que he desarrollado, abarcando tecnologías modernas como **Vue.js**, **Laravel**, **Django**, **Tailwind CSS**, **HTML**, **CSS** y más.
 
-<div align="center">
+## 🚀 Tecnologías que utilizo
 
-![Astro Badge](https://img.shields.io/badge/Astro-FF3E00?logo=astro&logoColor=fff&style=flat)
-![Tailwind CSS Badge](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=fff&style=flat)
-![GitHub stars](https://img.shields.io/github/stars/midudev/porfolio.dev)
-![GitHub PRs](https://img.shields.io/github/issues-pr/midudev/porfolio.dev)
-![GitHub forks](https://img.shields.io/github/forks/midudev/porfolio.dev)
-![GitHub issues](https://img.shields.io/github/issues/midudev/porfolio.dev)
+- 🐍 Python & Django
+- 🖼️ Vue.js
+- 🌐 HTML, CSS y JavaScript
+- 🎨 Tailwind CSS
+- ⚙️ Laravel (PHP)
+- 🧠 Dialogflow (IA conversacional)
+- 💾 MySQL & PostgreSQL
+- ☁️ Git & GitHub
 
-</div>
+## 📂 Proyectos destacados
 
-## 🫂 Contribuidores
+### 1. Sistema de Pedidos - NewBlessing
+Sistema completo de gestión de pedidos de camisas para la empresa NewBlessing. Incluye frontend en **Vue.js** y backend en **Laravel**.
+- 🔗 [Frontend](https://github.com/YaibeehBA/pedidos-vue-fronted)
+- 🔗 [Backend](https://github.com/YaibeehBA/pedidos-laravel-backend)
 
-<a href="https://github.com/midudev/porfolio.dev/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=midudev/porfolio.dev" />
-</a>
+### 2. Blog de Nutrición
+Sitio web informativo creado para un profesional nutricionista. Hecho con tecnologías web básicas: **HTML**, **CSS** y **JavaScript**.
+- 🔗 [Repositorio del proyecto](https://github.com/YaibeehBA/Nutricion-y-Dietetica)
 
-<p></p>
+### 3. Sistema de Reservas con Asistente Virtual
+Aplicación para realizar reservas de alojamientos y guías turísticos con integración de un **asistente virtual usando Dialogflow**. Desarrollado desde cero con **Django**, **Python** y **Bootstrap CSS**.
+
+## 📫 Contáctame
+
+¿Tienes una idea o propuesta? ¡Estoy abierto a colaboraciones!
+
+- 📧 smtihsly@gmail.com  
+- 💼 [LinkedIn](https://www.linkedin.com/in/stalyn-londo-87b0b293/)
+- 🌐 [Mi portafolio web](https://yaibeehba.github.io/portafolio)
+
+---
+
+Gracias por visitar mi portafolio. ¡Espero que encuentres algo que te inspire!
