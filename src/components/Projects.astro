@@ -80,7 +80,6 @@ const PROJECTS = [
 
 ]
 ---
-
 <style>
   .carousel-container {
     scroll-snap-type: x mandatory;
@@ -115,9 +114,9 @@ const PROJECTS = [
 </style>
 
 <div class="relative w-full group">
-  <!-- Flechas de navegación (texto simple) -->
+  <!-- Flechas de navegación -->
   <button 
-    class="absolute left-[-65px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
+    class="absolute left-2 md:left-[-65px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
     aria-label="Anterior"
     id="prevButton"
   >
@@ -125,27 +124,31 @@ const PROJECTS = [
   </button>
   
   <button 
-    class="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
+    class="absolute right-2 md:right-[-20px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
     aria-label="Siguiente"
     id="nextButton"
   >
     &gt;
   </button>
+  
   <!-- Carrusel -->
-  <div class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-6 px-4 hide-scrollbar">
+  <div 
+    class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-6 px-4 hide-scrollbar"
+    id="carousel"
+  >
     {
       PROJECTS.map(({ image, title, description, tags, link, github, githubBackend }) => (
         <article class={`
           carousel-item flex-none
           ${PROJECTS.length === 3 ? 
-            'w-full flex flex-row items-center gap-8' : 
-            'w-[calc(50%-1rem)] flex flex-col'}
+            'w-full flex flex-col md:flex-row items-center gap-8' : 
+            'w-[calc(100%-1rem)] sm:w-[calc(50%-1rem)] flex flex-col'}
         `}>
           {/* Contenedor de imagen */}
           <div class={`
             relative shadow-xl overflow-hidden rounded-xl 
             ${PROJECTS.length === 3 ? 
-              'w-1/2 h-96' : 
+              'w-full md:w-1/2 h-56 md:h-96' : 
               'w-full h-56 md:h-64 lg:h-72'}
             hover:-translate-y-1 hover:shadow-2xl transition-all
           `}>
@@ -162,7 +165,7 @@ const PROJECTS = [
           {/* Contenedor de información */}
           <div class={`
             ${PROJECTS.length === 3 ? 
-              'w-1/2' : 
+              'w-full md:w-1/2 mt-6 md:mt-0' : 
               'w-full mt-6'}
           `}>
             <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
@@ -200,8 +203,6 @@ const PROJECTS = [
                 </LinkButton>
               )}
             </footer>
-
-
           </div>
         </article>
       ))
@@ -209,34 +210,27 @@ const PROJECTS = [
   </div>
 </div>
 
-
-<script>
+<script is:inline>
   // Ejecutar solo en el cliente
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // Acceso a los botones y al carrusel
-      const prevButton = document.getElementById('prevButton');
-      const nextButton = document.getElementById('nextButton');
-      const carousel = document.getElementById('carousel');
+  document.addEventListener('DOMContentLoaded', () => {
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const carousel = document.getElementById('carousel');
+    
+    if (!carousel) return;
+    
+    const navigate = (direction) => {
+      const itemWidth = carousel.querySelector('.carousel-item').clientWidth;
+      const gap = 32; // 8 * 4 (gap-8 = 2rem = 32px)
+      const scrollAmount = itemWidth + gap;
       
-      // Función de navegación
-      const navigate = (direction: 'next' | 'prev') => {
-        if (carousel) {
-          const itemWidth = carousel.clientWidth / 2; // Tamaño del item
-          
-          // Desplazamiento del carrusel
-          carousel.scrollBy({
-            left: direction === 'next' ? itemWidth : -itemWidth,
-            behavior: 'smooth'
-          });
-        }
-      };
+      carousel.scrollBy({
+        left: direction === 'next' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth'
+      });
+    };
 
-      // Asignar eventos a los botones
-      if (prevButton && nextButton) {
-        prevButton.addEventListener('click', () => navigate('prev'));
-        nextButton.addEventListener('click', () => navigate('next'));
-      }
-    });
-  }
+    if (prevButton) prevButton.addEventListener('click', () => navigate('prev'));
+    if (nextButton) nextButton.addEventListener('click', () => navigate('next'));
+  });
 </script>
