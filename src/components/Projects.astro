@@ -76,28 +76,33 @@ const PROJECTS = [
     image: "/projects/app2.webp", 
     tags: [TAGS.HTML, TAGS.CSS],
   },
-
+  
 
 ]
 ---
 <style>
   .carousel-container {
-    scroll-snap-type: x mandatory;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
   }
   .carousel-item {
-    scroll-snap-align: start;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 1rem;
   }
   .arrow-button {
-    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
-    border: none;
+    border: 2px solid white;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -106,52 +111,73 @@ const PROJECTS = [
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .carousel-container:hover .arrow-button {
+    opacity: 1;
   }
   .arrow-button:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .arrow-button.prev {
+    left: 1rem;
+  }
+  .arrow-button.next {
+    right: 1rem;
+  }
+  .tag-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    position: relative;
+  }
+  .tag-with-icon .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 2px;
+    margin-right: 4px;
+  }
+  .tag-with-icon .icon-wrapper svg {
+    width: 14px;
+    height: 14px;
+    filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
+  }
+  .project-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .arrow-button {
+      opacity: 1 !important; /* Siempre visibles en móvil */
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+    }
+    .arrow-button.prev {
+      left: 0.5rem;
+    }
+    .arrow-button.next {
+      right: 0.5rem;
+    }
   }
 </style>
 
-<div class="relative w-full group">
-  <!-- Flechas de navegación -->
-  <button 
-    class="absolute left-2 md:left-[-65px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
-    aria-label="Anterior"
-    id="prevButton"
-  >
-    &lt;
-  </button>
-  
-  <button 
-    class="absolute right-2 md:right-[-20px] top-1/2 -translate-y-1/2 z-10 arrow-button opacity-0 group-hover:opacity-100 transition-opacity"
-    aria-label="Siguiente"
-    id="nextButton"
-  >
-    &gt;
-  </button>
-  
+<div class="carousel-container group">
   <!-- Carrusel -->
-  <div 
-    class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-6 px-4 hide-scrollbar"
-    id="carousel"
-  >
+  <div class="carousel-inner" id="carousel">
     {
       PROJECTS.map(({ image, title, description, tags, link, github, githubBackend }) => (
-        <article class={`
-          carousel-item flex-none
-          ${PROJECTS.length === 3 ? 
-            'w-full flex flex-col md:flex-row items-center gap-8' : 
-            'w-[calc(100%-1rem)] sm:w-[calc(50%-1rem)] flex flex-col'}
-        `}>
+        <article class="carousel-item">
           {/* Contenedor de imagen */}
-          <div class={`
-            relative shadow-xl overflow-hidden rounded-xl 
-            ${PROJECTS.length === 3 ? 
-              'w-full md:w-1/2 h-56 md:h-96' : 
-              'w-full h-56 md:h-64 lg:h-72'}
-            hover:-translate-y-1 hover:shadow-2xl transition-all
-          `}>
+          <div class="relative shadow-xl overflow-hidden rounded-xl w-full h-56 md:h-64 lg:h-72 hover:-translate-y-1 hover:shadow-2xl transition-all">
             <img 
               src={image} 
               alt={title} 
@@ -163,42 +189,45 @@ const PROJECTS = [
           </div>
 
           {/* Contenedor de información */}
-          <div class={`
-            ${PROJECTS.length === 3 ? 
-              'w-full md:w-1/2 mt-6 md:mt-0' : 
-              'w-full mt-6'}
-          `}>
+          <div class="w-full mt-6">
             <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
               {title}
             </h3>
             <ul class="flex flex-wrap mt-2 gap-2">
               {tags.map((tag) => (
                 <li>
-                  <span class={`rounded-full text-xs ${tag.class} py-1 px-3`}>
+                  <span class={`tag-with-icon rounded-full text-xs ${tag.class} py-1 px-3`}>
+                    <span class="icon-wrapper">
+                      <tag.icon />
+                    </span>
                     {tag.name}
                   </span>
                 </li>
               ))}
             </ul>
             <p class="mt-2 text-gray-700 dark:text-gray-400">{description}</p>
-            <footer class="flex gap-x-4 mt-4 flex-wrap">
+            <footer class="project-buttons mt-4">
               {github && !githubBackend && (
                 <LinkButton href={github}>
+                  <GitHub class="size-5 mr-1" />
                   Ver código
                 </LinkButton>
               )}
               {github && githubBackend && (
                 <>
                   <LinkButton href={github}>
-                    Código frontend
+                    <GitHub class="size-5 mr-1" />
+                    Frontend
                   </LinkButton>
                   <LinkButton href={githubBackend}>
-                    Código backend
+                    <GitHub class="size-5 mr-1" />
+                    Backend
                   </LinkButton>
                 </>
               )}
               {link && (
                 <LinkButton href={link}>
+                  <Link class="size-5 mr-1" />
                   Ver demo
                 </LinkButton>
               )}
@@ -208,29 +237,57 @@ const PROJECTS = [
       ))
     }
   </div>
+  
+  <!-- Flechas de navegación -->
+  <button 
+    class="arrow-button prev"
+    aria-label="Anterior"
+    id="prevButton"
+  >
+    &lt;
+  </button>
+  
+  <button 
+    class="arrow-button next"
+    aria-label="Siguiente"
+    id="nextButton"
+  >
+    &gt;
+  </button>
 </div>
 
 <script is:inline>
-  // Ejecutar solo en el cliente
   document.addEventListener('DOMContentLoaded', () => {
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
     const carousel = document.getElementById('carousel');
+    const items = carousel.querySelectorAll('.carousel-item');
+    let currentIndex = 0;
     
-    if (!carousel) return;
+    if (!carousel || items.length === 0) return;
+    
+    const updateCarousel = () => {
+      const itemWidth = items[0].clientWidth;
+      carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+    };
     
     const navigate = (direction) => {
-      const itemWidth = carousel.querySelector('.carousel-item').clientWidth;
-      const gap = 32; // 8 * 4 (gap-8 = 2rem = 32px)
-      const scrollAmount = itemWidth + gap;
-      
-      carousel.scrollBy({
-        left: direction === 'next' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth'
-      });
+      if (direction === 'next') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+      }
+      updateCarousel();
     };
-
+    
+    // Inicializar
+    updateCarousel();
+    
+    // Event listeners
     if (prevButton) prevButton.addEventListener('click', () => navigate('prev'));
     if (nextButton) nextButton.addEventListener('click', () => navigate('next'));
+    
+    // Manejar redimensionamiento
+    window.addEventListener('resize', updateCarousel);
   });
 </script>
