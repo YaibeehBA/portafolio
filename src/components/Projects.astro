@@ -7,7 +7,6 @@ import Link from "./icons/Link.astro"
 import Html from "./icons/Html.astro"
 import Css from "./icons/Css.astro"
 import Laravel from "./icons/Laravel.astro"
-
 import Vue from "./icons/Vue.astro"
 import LinkButton from "./LinkButton.astro"
 
@@ -49,7 +48,6 @@ const TAGS = {
   },
 }
 
-
 const PROJECTS = [
   {
     title: "Sistema de reservas para el Gad de San Andres",
@@ -68,6 +66,15 @@ const PROJECTS = [
     image: "/projects/app3.webp", 
     tags: [TAGS.LARAVEL, TAGS.VUE],
   },
+
+  {
+  title: "PetGuard - Plataforma de Denuncias Animales",
+  description: "Sistema web completo para reportar denuncias de maltrato animal con análisis de imágenes mediante IA. Incluye formularios de reporte, galería de casos, panel administrativo y geolocalización. Desarrollado con Next.js para una experiencia rápida y Django para gestionar la lógica de negocio y la IA.",
+  link: "", 
+  github: "https://github.com/YaibeehBA/petguard-platform",
+  image: "/projects/petguard.webp", 
+  tags: [TAGS.NEXT, TAGS.DJANGO, TAGS.TAILWIND, TAGS.HTML, TAGS.CSS],
+},
   {
     title: "Blog de Nutrición Profesional",
     description: "Sitio web informativo diseñado para un nutricionista profesional. Se comparten artículos, consejos y recetas saludables, enfocados en una vida balanceada. Desarrollado con HTML, CSS y JavaScript para una experiencia simple y rápida.",
@@ -77,63 +84,88 @@ const PROJECTS = [
     tags: [TAGS.HTML, TAGS.CSS],
   },
   
-
 ]
 ---
+
 <style>
-  .carousel-container {
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  :global(.dark) .project-card {
+    background: rgba(30, 30, 30, 0.8);
+  }
+  
+  .project-image-wrapper {
     position: relative;
     width: 100%;
+    height: 240px;
     overflow: hidden;
   }
-  .carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease;
+  
+  .project-image {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
   }
-  .carousel-item {
-    min-width: 100%;
-    box-sizing: border-box;
-    padding: 0 1rem;
+  
+  .project-card:hover .project-image {
+    transform: scale(1.05);
   }
-  .arrow-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: 2px solid white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+  
+  .project-content {
+    padding: 1.5rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    flex-direction: column;
+    flex-grow: 1;
   }
-  .carousel-container:hover .arrow-button {
-    opacity: 1;
+  
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
   }
-  .arrow-button:hover {
-    background: rgba(0, 0, 0, 0.9);
-    transform: translateY(-50%) scale(1.1);
+  
+  :global(.dark) .project-title {
+    color: #f3f4f6;
   }
-  .arrow-button.prev {
-    left: 1rem;
+  
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
-  .arrow-button.next {
-    right: 1rem;
-  }
+  
   .tag-with-icon {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    position: relative;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
   }
+  
   .tag-with-icon .icon-wrapper {
     display: flex;
     align-items: center;
@@ -143,151 +175,105 @@ const PROJECTS = [
     padding: 2px;
     margin-right: 4px;
   }
+  
   .tag-with-icon .icon-wrapper svg {
     width: 14px;
     height: 14px;
     filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
   }
+  
+  .project-description {
+    color: #4b5563;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+    line-height: 1.6;
+  }
+  
+  :global(.dark) .project-description {
+    color: #9ca3af;
+  }
+  
   .project-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
     align-items: center;
+    margin-top: auto;
   }
+  
   @media (max-width: 768px) {
-    .arrow-button {
-      opacity: 1 !important; /* Siempre visibles en móvil */
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-    }
-    .arrow-button.prev {
-      left: 0.5rem;
-    }
-    .arrow-button.next {
-      right: 0.5rem;
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
   }
 </style>
 
-<div class="carousel-container group">
-  <!-- Carrusel -->
-  <div class="carousel-inner" id="carousel">
-    {
-      PROJECTS.map(({ image, title, description, tags, link, github, githubBackend }) => (
-        <article class="carousel-item">
-          {/* Contenedor de imagen */}
-          <div class="relative shadow-xl overflow-hidden rounded-xl w-full h-56 md:h-64 lg:h-72 hover:-translate-y-1 hover:shadow-2xl transition-all">
-            <img 
-              src={image} 
-              alt={title} 
-              class="object-cover w-full h-full" 
-              loading="lazy" 
-              width="600" 
-              height="400"
-            />
-          </div>
+<div class="projects-grid">
+  {
+    PROJECTS.map(({ image, title, description, tags, link, github, githubBackend }) => (
+      <article class="project-card">
+        {/* Imagen del proyecto */}
+        <div class="project-image-wrapper">
+          <img 
+            src={image} 
+            alt={title} 
+            class="project-image" 
+            loading="lazy" 
+            width="600" 
+            height="400"
+          />
+        </div>
 
-          {/* Contenedor de información */}
-          <div class="w-full mt-6">
-            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-              {title}
-            </h3>
-            <ul class="flex flex-wrap mt-2 gap-2">
-              {tags.map((tag) => (
-                <li>
-                  <span class={`tag-with-icon rounded-full text-xs ${tag.class} py-1 px-3`}>
-                    <span class="icon-wrapper">
-                      <tag.icon />
-                    </span>
-                    {tag.name}
+        {/* Contenido del proyecto */}
+        <div class="project-content">
+          <h3 class="project-title">
+            {title}
+          </h3>
+          
+          <ul class="project-tags">
+            {tags.map((tag) => (
+              <li>
+                <span class={`tag-with-icon ${tag.class}`}>
+                  <span class="icon-wrapper">
+                    <tag.icon />
                   </span>
-                </li>
-              ))}
-            </ul>
-            <p class="mt-2 text-gray-700 dark:text-gray-400">{description}</p>
-            <footer class="project-buttons mt-4">
-              {github && !githubBackend && (
+                  {tag.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+          
+          <p class="project-description">{description}</p>
+          
+          <footer class="project-buttons">
+            {github && !githubBackend && (
+              <LinkButton href={github}>
+                <GitHub class="size-5 mr-1" />
+                Ver código
+              </LinkButton>
+            )}
+            {github && githubBackend && (
+              <>
                 <LinkButton href={github}>
                   <GitHub class="size-5 mr-1" />
-                  Ver código
+                  Frontend
                 </LinkButton>
-              )}
-              {github && githubBackend && (
-                <>
-                  <LinkButton href={github}>
-                    <GitHub class="size-5 mr-1" />
-                    Frontend
-                  </LinkButton>
-                  <LinkButton href={githubBackend}>
-                    <GitHub class="size-5 mr-1" />
-                    Backend
-                  </LinkButton>
-                </>
-              )}
-              {link && (
-                <LinkButton href={link}>
-                  <Link class="size-5 mr-1" />
-                  Ver demo
+                <LinkButton href={githubBackend}>
+                  <GitHub class="size-5 mr-1" />
+                  Backend
                 </LinkButton>
-              )}
-            </footer>
-          </div>
-        </article>
-      ))
-    }
-  </div>
-  
-  <!-- Flechas de navegación -->
-  <button 
-    class="arrow-button prev"
-    aria-label="Anterior"
-    id="prevButton"
-  >
-    &lt;
-  </button>
-  
-  <button 
-    class="arrow-button next"
-    aria-label="Siguiente"
-    id="nextButton"
-  >
-    &gt;
-  </button>
+              </>
+            )}
+            {link && (
+              <LinkButton href={link}>
+                <Link class="size-5 mr-1" />
+                Ver demo
+              </LinkButton>
+            )}
+          </footer>
+        </div>
+      </article>
+    ))
+  }
 </div>
-
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const prevButton = document.getElementById('prevButton');
-    const nextButton = document.getElementById('nextButton');
-    const carousel = document.getElementById('carousel');
-    const items = carousel.querySelectorAll('.carousel-item');
-    let currentIndex = 0;
-    
-    if (!carousel || items.length === 0) return;
-    
-    const updateCarousel = () => {
-      const itemWidth = items[0].clientWidth;
-      carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-    };
-    
-    const navigate = (direction) => {
-      if (direction === 'next') {
-        currentIndex = (currentIndex + 1) % items.length;
-      } else {
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-      }
-      updateCarousel();
-    };
-    
-    // Inicializar
-    updateCarousel();
-    
-    // Event listeners
-    if (prevButton) prevButton.addEventListener('click', () => navigate('prev'));
-    if (nextButton) nextButton.addEventListener('click', () => navigate('next'));
-    
-    // Manejar redimensionamiento
-    window.addEventListener('resize', updateCarousel);
-  });
-</script>
