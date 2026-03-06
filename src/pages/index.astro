@@ -10,6 +10,7 @@ import Projects from "@/components/Projects.astro"
 import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
 import TitleSection from "@/components/TitleSection.astro"
+import DataProjects from "../components/DataProjects.astro"
 ---
 
 <Layout
@@ -28,9 +29,17 @@ import TitleSection from "@/components/TitleSection.astro"
     <SectionContainer id="proyectos">
       <TitleSection>
         <CodeIcon class="size-7" />
-        Proyectos
+        Desarrollo Web 
       </TitleSection>
       <Projects />
+    </SectionContainer>
+
+      <SectionContainer id="proyectos">
+      <TitleSection>
+        <CodeIcon class="size-7" />
+        Análisis de Datos
+      </TitleSection>
+      <DataProjects />
     </SectionContainer>
 
     <SectionContainer id="sobre-mi">

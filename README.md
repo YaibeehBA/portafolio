@@ -32,8 +32,8 @@ Aplicación para realizar reservas de alojamientos y guías turísticos con inte
 ¿Tienes una idea o propuesta? ¡Estoy abierto a colaboraciones!
 
 - 📧 smtihsly@gmail.com  
-- 💼 [LinkedIn](https://www.linkedin.com/in/stalyn-londo-87b0b293/)
-- 🌐 [Mi portafolio web](https://yaibeehba.github.io/portafolio)
+- 💼 [LinkedIn](https://www.linkedin.com/in/stalyn-londo/)
+- 🌐 [Mi portafolio web](https://sl-mi-portafolio.netlify.app/)
 
 ---
 

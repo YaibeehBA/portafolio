@@ -1,0 +1,236 @@
+---
+import GitHub from "./icons/GitHub.astro"
+import LinkButton from "./LinkButton.astro"
+
+const DATA_TAGS = {
+  PYTHON:     { name: "Python",      class: "bg-[#3776AB] text-white" },
+  PANDAS:     { name: "Pandas",      class: "bg-[#130754] text-white" },
+  POWERBI:    { name: "Power BI",    class: "bg-[#F2C811] text-black" },
+  JUPYTER:    { name: "Jupyter",     class: "bg-[#F37626] text-white" },
+  SEABORN:    { name: "Seaborn",     class: "bg-[#4C72B0] text-white" },
+  MATPLOTLIB: { name: "Matplotlib",  class: "bg-[#11557C] text-white" },
+  MYSQL: { name: "MySQL", class: "bg-[#00758F] text-white" },
+}
+
+const DATA_PROJECTS = [
+  {
+    title: "Avocado Sales Analysis",
+    description: "Análisis exploratorio de ventas de aguacate en EE.UU. (2015–2018) con limpieza de datos y dashboard interactivo en Power BI.",
+    github: "https://github.com/YaibeehBA/Grupo8-AVOCADO-SALES",
+    dashboard: "https://app.powerbi.com/view?r=eyJrIjoiYTI5ZmFmMzEtYTkwMi00MGRmLTkwNzEtYmZmYWZiYzE4ZGY0IiwidCI6ImQ3Zjg2NzEwLTAxZTEtNDYxZC04NTk5LTc1OGRlNDU0MmUyYiIsImMiOjR9",
+    image: "/projects/data1.webp",
+    tags: [DATA_TAGS.PYTHON, DATA_TAGS.PANDAS, DATA_TAGS.POWERBI, DATA_TAGS.JUPYTER, DATA_TAGS.SEABORN, DATA_TAGS.MATPLOTLIB],
+  },
+  {
+  title: "TalentFlow - People Analytics",
+  description: "Análisis de datos de RRHH de 1,470 empleados para identificar patrones de compensación, capacitación y retención de talento. Desarrollado con Python, Pandas y Seaborn.",
+  github: "https://github.com/jossuema/g9-human-resources",
+  dashboard: "",
+  image: "/projects/data2.webp",  // 
+  tags: [DATA_TAGS.PYTHON, DATA_TAGS.PANDAS, DATA_TAGS.JUPYTER, DATA_TAGS.SEABORN, DATA_TAGS.MATPLOTLIB],
+},
+{
+  title: "Infieles EC - Registro Nacional de Infieles",
+  description: "Extracción de datos mediante web scraping a una API GraphQL, limpieza y análisis exploratorio de registros de infidelidad en Ecuador por provincia, género y duración.",
+  github: "https://github.com/YaibeehBA/infielesec",
+  dashboard: "https://app.powerbi.com/view?r=eyJrIjoiYzNhM2I1NjYtY2ExMC00NThhLTlmZTMtOTYwMzk3YTgwNWI3IiwidCI6ImQ3Zjg2NzEwLTAxZTEtNDYxZC04NTk5LTc1OGRlNDU0MmUyYiIsImMiOjR9",
+  image: "/projects/data3.webp", // 
+  tags: [DATA_TAGS.PYTHON, DATA_TAGS.PANDAS, DATA_TAGS.POWERBI, DATA_TAGS.JUPYTER],
+},
+{
+  title: "Residuos Urbanizaciones - Base de Datos SQL",
+  description: "Modelo relacional normalizado hasta 3FN para gestionar recolección de residuos en urbanizaciones. Incluye análisis de eficiencia por vehículo, separación correcta y volumen por ubicación.",
+  github: "https://github.com/YaibeehBA/residuos-urbanizaciones", 
+  dashboard: "",
+  image: "/projects/data4.webp", // 
+  tags: [DATA_TAGS.MYSQL],
+},
+]
+---
+
+<style>
+  .data-section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  :global(.dark) .data-section-title { color: #f9fafb; }
+
+  .data-section-subtitle {
+    color: #6b7280;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+  :global(.dark) .data-section-subtitle { color: #9ca3af; }
+
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .data-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  :global(.dark) .data-card { background: rgba(30,30,30,0.8); }
+  .data-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+
+  .data-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  .data-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .data-card:hover .data-image { transform: scale(1.05); }
+
+  .dashboard-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #F2C811;
+    color: #1a1a1a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .dashboard-badge svg { width: 12px; height: 12px; }
+
+  .data-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .data-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+  }
+  :global(.dark) .data-title { color: #f3f4f6; }
+
+  .data-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .data-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  .data-desc {
+    color: #4b5563;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+  :global(.dark) .data-desc { color: #9ca3af; }
+
+  .data-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: auto;
+    align-items: center;
+  }
+
+  .btn-dashboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #F2C811;
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.45rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+  .btn-dashboard:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-dashboard svg { width: 16px; height: 16px; }
+</style>
+
+<section>
+  
+  <div class="data-grid">
+    {DATA_PROJECTS.map(({ image, title, description, tags, github, dashboard }) => (
+      <article class="data-card">
+
+        <div class="data-image-wrapper">
+          <img src={image} alt={title} class="data-image" loading="lazy" width="600" height="400" />
+          {dashboard && (
+            <span class="dashboard-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 3h3v18H5V3zm5.5 4h3v14h-3V7zM16 9h3v12h-3V9z"/>
+              </svg>
+              Power BI
+            </span>
+          )}
+        </div>
+
+        <div class="data-content">
+          <h3 class="data-title">{title}</h3>
+
+          <ul class="data-tags">
+            {tags.map((tag) => (
+              <li><span class={`data-tag ${tag.class}`}>{tag.name}</span></li>
+            ))}
+          </ul>
+
+          <p class="data-desc">{description}</p>
+
+          <footer class="data-buttons">
+            {github && (
+              <LinkButton href={github}>
+                <GitHub class="size-5 mr-1" />
+                Ver código
+              </LinkButton>
+            )}
+            {dashboard && (
+              <a href={dashboard} target="_blank" rel="noopener noreferrer" class="btn-dashboard">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5 3h3v18H5V3zm5.5 4h3v14h-3V7zM16 9h3v12h-3V9z"/>
+                </svg>
+                Ver Dashboard
+              </a>
+            )}
+          </footer>
+        </div>
+
+      </article>
+    ))}
+  </div>
+</section>
